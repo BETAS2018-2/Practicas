@@ -1,0 +1,14 @@
+{
+  "name": "practica005",
+  "version": "1.0.0",
+  "description": "Promesas",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Enrique Aguilar",
+  "license": "MIT",
+  "dependencies": {
+    "yargs": "^12.0.1"
+  }
+}
