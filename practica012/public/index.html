@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h2>Chat</h2>
+    <div id="chatContent"></div>
+    <div id="escribiendo"></div>
+    <input id="mensaje" type="text">
+    <input type="button" value="Enviar" id="btnEnviar">
+</body>
+
+<script>
+    var socket = io();
+
+    socket.on("connect", ()=>{
+        // console.log("conectado");
+        socket.emit("usuarioNuevo", {
+            usuario: "Enrique"
+        });
+    });
+
+    socket.on("disconnect", ()=>{
+        console.log("se perdio la conexión :(");
+    });
+
+    socket.on("mensajeNuevo", (data)=>{
+        showMensaje(data.usuario, data.mensaje);
+    });
+
+    document.getElementById("btnEnviar").addEventListener("click", ()=>{
+        var mensaje = document.getElementById("mensaje").value;
+        socket.emit("mensajeNuevo", {
+            usuario: "Enrique",
+            mensaje
+        },(res)=>{
+            showMensaje("Tú" , res.mensaje);
+        });
+    });
+
+    document.getElementById("mensaje").addEventListener("input", () => {
+        socket.emit("escribiendo", {
+            usuario: "Enrique"
+        });
+    });
+    
+    socket.on("escribiendo", (data) => {
+        document.getElementById("escribiendo").innerHTML = `${data.usuario} esta escribiendo...`;
+        setTimeout(()=>{
+            document.getElementById("escribiendo").innerHTML = "";
+        }, 2000);
+    });
+    
+    function showMensaje(usuario, mensaje){
+        document.getElementById("chatContent").innerHTML += `${usuario}: ${mensaje} <br>`;
+    }
+
+</script>
+
+</html>
