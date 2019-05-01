@@ -30,7 +30,8 @@ io.on("connection", (client) => {
     client.on("usuarioNuevo", (data)=>{
         client.broadcast.emit("usuarioNuevo", {
             usuario: "Servidor",
-            mensaje: `${data.usuario}: se ha unido`
+            mensaje: `${data.usuario}: se ha unido`,
+            id: client.getId()
         });
     });
 
